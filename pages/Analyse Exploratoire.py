@@ -16,6 +16,7 @@ else:
     anaExp.afficherDimensions(data)
     with st.sidebar:
         section=st.multiselect('Afficher',['details colonnes','les types de colonnes','les premiéres lignes','par colonnes','les valeurs uniques par colonne','résumé statistique','distribution de la valeur cible','distribution des colonnes','pair plot','reg plots'],default=[],key='4')
+
     if 'details colonnes' in section:
         anaExp.afficherLesDetailsColonnes()
     if 'les types de colonnes' in section:
@@ -40,12 +41,3 @@ else:
 
 
 
-
-
-
->>>>>>> Stashed changes
-
-plot2D.distribution_de_target(data)
-plot2D.distribution_cols(data)
-plot2D.pairplot(data)
-plot2D.regplots(data)
