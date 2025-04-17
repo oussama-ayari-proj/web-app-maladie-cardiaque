@@ -77,3 +77,19 @@ def pairplot(data):
     if len(cols)>1:
         g = sns.pairplot(data_, hue="target", corner=True, diag_kind='hist')
         st.pyplot(g)
+
+def regplots(data):
+    mypal = ['#FC05FB', '#FEAEFE', '#FCD2FC','#F3FEFA', '#B4FFE4','#3FFEBA']
+    cols=st.multiselect('Séléctionner colonne(s)',['cholesterol','max_heart_rate_achieved','resting_blood_pressure','st_depression'],default=[],key='100')
+    L=len(cols)
+    
+    fig, ax = plt.subplots(1,L, figsize=(25, 10))
+    if L > 1:
+        for i in range(L):
+            sns.regplot(data=data[data['target'] ==1], x='age', y=cols[i], ax = ax[i], color=mypal[0], label='1')
+            sns.regplot(data=data[data['target'] ==0], x='age', y=cols[i], ax = ax[i], color=mypal[5], label='0')
+    elif L==1:
+        sns.regplot(data=data[data['target'] ==1], x='age', y=cols[0], ax = ax, color=mypal[0], label='1')
+        sns.regplot(data=data[data['target'] ==0], x='age', y=cols[0], ax = ax, color=mypal[5], label='0')
+      
+    st.pyplot(fig)
