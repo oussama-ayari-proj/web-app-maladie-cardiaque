@@ -37,3 +37,4 @@ else:
         plot2D.pairplot(data)
     if 'reg plots' in section:
         plot2D.regplots(data)
+
