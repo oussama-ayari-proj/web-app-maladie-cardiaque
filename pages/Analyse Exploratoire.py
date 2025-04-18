@@ -16,6 +16,16 @@ else:
     anaExp.afficherDimensions(data)
     with st.sidebar:
         section=st.multiselect('Afficher',['details colonnes','les types de colonnes','les premiéres lignes','par colonnes','les valeurs uniques par colonne','résumé statistique','distribution de la valeur cible','distribution des colonnes','pair plot','reg plots'],default=[],key='4')
+if st.session_state['database']=="":
+    st.write("Veuillez choisir le fichier à traiter !!")
+else:
+    data=pd.read_csv(st.session_state['database'])
+    data=preprocess.preprocess(data)
+    if st.button("Exporter"):
+        preprocess.export(data)
+    anaExp.afficherDimensions(data)
+    with st.sidebar:
+        section=st.multiselect('Afficher',['details colonnes','les types de colonnes','les premiéres lignes','par colonnes','les valeurs uniques par colonne','résumé statistique','distribution de la valeur cible','distribution des colonnes','pair plot','reg plots'],default=[],key='4')
 
     if 'details colonnes' in section:
         anaExp.afficherLesDetailsColonnes()
