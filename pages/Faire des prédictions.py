@@ -16,7 +16,10 @@ with st.form("my_form"):
     st.write("Saisir données d\'un patient:")
     inputs={}
     for col in data.columns:
-        inputs[col] = st.number_input("Donner "+col)
+        if not col in ["age","resting_blood_pressure","cholesterol","max_heart_rate_achieved","st_depression"]:
+            inputs[col] = st.selectbox("Donner"+col+" du patient",data[col].unique())
+            continue
+        inputs[col] = st.number_input("Donner "+col+" du patient")
 
     submitted = st.form_submit_button("Envoyer")
     if submitted:
