@@ -7,7 +7,10 @@ from lib import api
 st.header('Faire des predictions !!')
 st.subheader('Data d\'entraînement actuelle')
 data=pd.read_csv(st.session_state['database'])
-data.drop(columns=['output'],inplace=True)
+if "output" in data.columns:
+    data.drop(columns=['output'],inplace=True)
+else:
+    data.drop(columns=['target'],inplace=True)
 st.write(data)
 with st.form("my_form"):
     st.write("Saisir données d\'un patient:")

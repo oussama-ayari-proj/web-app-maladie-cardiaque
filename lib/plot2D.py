@@ -94,3 +94,59 @@ def regplots(data):
             sns.regplot(data=data[data['target'] ==0], x='age', y=cols[0], ax = ax, color=mypal[5], label='0')
         
         st.pyplot(fig)
+
+
+def distribution_variables(data):
+    st.header('Distribution de variables catégorielles')
+    cols = st.multiselect(
+        'Séléctionner colonne(s)',
+        ['sex','chest_pain_type','resting_electrocardiogram','st_slope','thalassemia','fasting_blood_sugar','exercise_induced_angina'],
+        default=[],
+        key='300'
+    )
+    
+    L = len(cols)
+    mypal = ['#FC05FB', '#FEAEFE', '#FCD2FC','#F3FEFA', '#B4FFE4','#3FFEBA']
+    
+    if L > 0:
+        ncol = 2
+        nrow = int(np.ceil(L / ncol))
+        fig, axes = plt.subplots(nrow, ncol, figsize=(18, 7 * nrow), facecolor='#F6F5F4')
+        fig.subplots_adjust(top=0.92, hspace=0.4)
+        axes = axes.flatten()
+        
+        for i, col in enumerate(cols):
+            ax = axes[i]
+            sns.countplot(data=data, x=col, hue="target", palette=mypal[1::4], ax=ax)
+            ax.set_xlabel(col, fontsize=20)
+            ax.set_ylabel("Count", fontsize=20)
+            ax.set_facecolor('#F6F5F4')
+            sns.despine(ax=ax, right=True, offset=0, trim=False)
+            ax.legend(facecolor='#F6F5F4')
+            
+            for p in ax.patches:
+                height = p.get_height()
+                ax.text(
+                    p.get_x() + p.get_width() / 2.,
+                    height + 3,
+                    '{:1.0f}'.format(height),
+                    ha="center",
+                    fontsize=10,
+                    bbox=dict(facecolor='none', edgecolor='black', boxstyle='round,pad=0.3', linewidth=0.5)
+                )
+
+        for j in range(L, len(axes)):
+            axes[j].set_visible(False)
+
+        st.pyplot(fig)
+
+def matrice_corr(data):
+    st.header("Matrice de corrélation")
+    corr = data.corr()
+    mypal = ['#FC05FB', '#FEAEFE', '#FCD2FC','#F3FEFA', '#B4FFE4','#3FFEBA']
+    mask = np.triu(np.ones_like(corr, dtype=bool))
+    f, ax = plt.subplots(figsize=(18, 15), facecolor=None)
+    cmap = sns.color_palette(mypal, as_cmap=True)
+    sns.heatmap(corr, mask=mask, cmap=cmap, vmax=1.0, vmin=-1.0, center=0, annot=True,
+                square=False, linewidths=.5, cbar_kws={"shrink": 0.75})
+    st.pyplot(f)
