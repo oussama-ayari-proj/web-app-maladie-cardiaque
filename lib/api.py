@@ -11,7 +11,7 @@ def envoyer_requete(data):
         payload=payload+str(l[i])+", "
     payload=payload+str(l[n-1])
     Test_example = { "data": payload}
-    Appended_url = f'https://f39q29puw2.execute-api.us-east-1.amazonaws.com/testing-stage/mt-resource'
+    Appended_url = f'https://frrgcpeuu0.execute-api.us-east-1.amazonaws.com/testing-stage/my-resource'
     st.write(Test_example)
     response = requests.post(Appended_url, json=Test_example).json()
     res=json.dumps(response, indent=4)
